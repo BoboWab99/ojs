@@ -25,7 +25,7 @@ route.basePath('');
  | can find the context files
  |-----------------------------------
 */
-ContextProvider.directory = route.baseUrl('task_tracker/contexts');
+ContextProvider.directory = route.baseUrl('js/contexts');
 
 /*-----------------------------------
  | set the version number of the
@@ -42,7 +42,7 @@ ContextProvider.version = '1.0.0';
  | from that directory
  |-----------------------------------
 */
-MediatorManager.directory = route.baseUrl('task_tracker/mediators');
+MediatorManager.directory = route.baseUrl('js/mediators');
 
 /*-----------------------------------
  | Set the version number of the 
@@ -58,7 +58,7 @@ MediatorManager.version = '1.0.0';
  | directory for the loader
  |-----------------------------------
 */
-loader.dir = route.baseUrl('task_tracker/components');
+loader.dir = route.baseUrl('js/components');
 
 /*-----------------------------------
  | set the version number of the
@@ -75,7 +75,7 @@ loader.version = '1.0.0';
  |-----------------------------------
 */
 
-autoload.dir = route.baseUrl('/');
+autoload.dir = route.baseUrl('js');
 
 /*-----------------------------------
  | set the version number of the

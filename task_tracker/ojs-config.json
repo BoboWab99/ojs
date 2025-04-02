@@ -1,6 +1,7 @@
 {
     "dir": {
         "components": "js/components",
-        "mediators": "js/mediators"
+        "mediators": "js/mediators",
+        "contexts": "js/contexts"
     }
 }

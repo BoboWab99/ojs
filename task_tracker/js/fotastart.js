@@ -8,6 +8,14 @@ class dom {
     constructor() { }
 
     /**
+     * ***document.documentElement***
+     * @returns 
+     */
+    static html() {
+        return document.documentElement;
+    }
+
+    /**
      * Gets a single element
      * @param {string} selector css selector
      * @param {HTMLElement} parent defaults to document
@@ -139,6 +147,23 @@ class dom {
      */
     static enable(element) {
         element.removeAttribute("disabled");
+    }
+
+    /**
+     * @param {String} name HTMLFormElement name or ID
+     * @returns 
+     */
+    static form(name) {
+        return document.forms.namedItem(name);
+    }
+
+    /**
+     * @param {String} name HTMLFormElement field name or ID
+     * @param {HTMLFormElement} form 
+     * @returns 
+     */
+    static field(name, form) {
+        return form.elements.namedItem(name);
     }
 }
 

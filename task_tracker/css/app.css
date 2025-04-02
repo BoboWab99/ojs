@@ -1,0 +1,503 @@
+/* main styles */
+
+/* imports */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap');
+
+@import url("popup.css");
+
+
+/* variables */
+
+:root {
+    --color-code-blue: 40 70 200;
+    --color-code-teal: 16 149 149;
+    --color-code-green: 40 200 40;
+    --color-code-purple: 108 15 184;
+
+    --color-code-blue-darker: 24 51 169;
+    --color-code-teal-darker: 0 128 128;
+    --color-code-green-darker: 23 173 23;
+    --color-code-purple-darker: 79 7 139;
+
+    --color-code-danger: 200 20 24;
+    --color-code-success: 16 129 6;
+    --color-code-danger-darker: 171 15 19;
+    --color-code-success-darker: 10 82 4;
+
+    --color-primary: rgb(var(--color-code-primary));
+    --color-danger: rgb(var(--color-code-danger));
+    --color-success: rgb(var(--color-code-success));
+
+    --color-primary-darker: rgb(var(--color-code-primary-darker));
+    --color-danger-darker: rgb(var(--color-code-danger-darker));
+    --color-success-darker: rgb(var(--color-code-success-darker));
+}
+
+/* set default color to blue */
+html:not([data-theme]),
+[data-theme="blue"] {
+    --color-code-primary: var(--color-code-blue);
+    --color-code-primary-darker: var(--color-code-blue-darker);
+}
+
+[data-theme="teal"] {
+    --color-code-primary: var(--color-code-teal);
+    --color-code-primary-darker: var(--color-code-teal-darker);
+}
+
+[data-theme="green"] {
+    --color-code-primary: var(--color-code-green);
+    --color-code-primary-darker: var(--color-code-green-darker);
+}
+
+[data-theme="purple"] {
+    --color-code-primary: var(--color-code-purple);
+    --color-code-primary-darker: var(--color-code-purple-darker);
+}
+
+/* reset styles */
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+body {
+    margin: 0;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* end::reset styles */
+
+
+/* generic classes */
+
+.visually-hidden {
+    pointer-events: none;
+    display: none;
+}
+
+.container {
+    max-width: 800px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+}
+
+/* input, textarea, select boxes */
+
+.form-input {
+    padding: .5rem .75rem;
+    display: inline-block;
+    text-align: left;
+    font-size: 1rem;
+    border-radius: .3rem;
+    outline: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    transition: all .25s ease-in-out;
+}
+
+.form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 .25rem rgb(var(--color-code-primary) / .4);
+}
+
+/* button styles */
+
+.button {
+    padding: .5rem .75rem;
+    display: inline-block;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: .3rem;
+    outline: 0;
+    border: 1px solid transparent;
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+}
+
+/* primary button */
+
+.button-primary {
+    color: #fff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.button-primary:hover {
+    color: #fff;
+    background-color: var(--color-primary-darker);
+    border-color: var(--color-primary-darker);
+}
+
+.button-primary-transparent {
+    color: var(--color-primary);
+    background-color: transparent;
+}
+
+.button-primary-transparent:hover {
+    color: var(--color-primary-darker);
+    background-color: rgb(var(--color-code-primary) / .1);
+    border-color: rgb(var(--color-code-primary) / .1);
+}
+
+.button-primary:focus,
+.button-primary-transparent:focus {
+    box-shadow: 0 0 0 .25rem rgb(var(--color-code-primary) / .4);
+}
+
+/* danger button */
+
+.button-danger {
+    color: #fff;
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.button-danger:hover {
+    color: #fff;
+    background-color: var(--color-danger-darker);
+    border-color: var(--color-danger-darker);
+}
+
+.button-danger-transparent {
+    color: var(--color-danger);
+    background-color: transparent;
+}
+
+.button-danger-transparent:hover {
+    color: var(--color-danger-darker);
+    background-color: rgb(var(--color-code-danger) / .1);
+    border-color: rgb(var(--color-code-danger) / .1);
+}
+
+.button-danger:focus,
+.button-danger-transparent:focus {
+    box-shadow: 0 0 0 .25rem rgb(var(--color-code-danger) / .4);
+}
+
+/* success button */
+
+.button-success {
+    color: #fff;
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.button-success:hover {
+    color: #fff;
+    background-color: var(--color-success-darker);
+    border-color: var(--color-success-darker);
+}
+
+.button-success-transparent {
+    color: var(--color-success);
+    background-color: transparent;
+}
+
+.button-success-transparent:hover {
+    color: var(--color-success-darker);
+    background-color: rgb(var(--color-code-success) / .1);
+    border-color: rgb(var(--color-code-success) / .1);
+}
+
+.button-success:focus,
+.button-success-transparent:focus {
+    box-shadow: 0 0 0 .25rem rgb(var(--color-code-success) / .4);
+}
+
+/* end::generic classes */
+
+
+
+/* task tracker styles */
+/* ------------------- */
+
+.header {
+    height: 6.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid var(--color-primary);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header-inner {
+    background-color: rgb(var(--color-code-primary) / .1);
+}
+
+.header>*,
+.header>*>* {
+    height: 100%;
+}
+
+.header .container {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 25% 1fr 25%;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: #222;
+    font-size: 1.75rem;
+    font-weight: bold;
+    display: block;
+}
+
+.logo>span {
+    color: var(--color-primary);
+}
+
+.header-quote,
+.header-date .day-of-week {
+    color: #586b85;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.header-quote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.header-quote>p {
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.header-quote>p::before {
+    position: absolute;
+    content: "\f10d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 1.65rem;
+    top: 0;
+    right: 100%;
+    transform: translate(-.5rem, -1.5rem);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 1.5rem;
+}
+
+.header-date {
+    text-align: right;
+    display: grid;
+}
+
+.header-date .day-of-week {
+    font-size: .8rem;
+}
+
+.header-date .date {
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+.button-theme-toggle {
+    --_size: 38px;
+    width: var(--_size);
+    height: var(--_size);
+    font-size: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-darker);
+    background-color: rgb(var(--color-code-primary-darker) / .2);
+    border-color: transparent;
+    border-radius: .5rem;
+}
+
+/* task form styles */
+/* --------------- */
+
+.main {
+    padding-block: 2rem;
+}
+
+.task-form {
+    display: flex;
+    align-items: start;
+    gap: .75rem;
+}
+
+.page-edit-task .task-form {
+    display: grid;
+}
+
+.task-form .form-input,
+.task-form [type="submit"] {
+    padding: .75rem 1.25rem;
+    font-size: 1.25rem;
+}
+
+.task-form .form-input {
+    width: 100%;
+    padding-right: 4rem;
+}
+
+.task-form .inputs {
+    flex-grow: 1;
+    position: relative;
+}
+
+.form-date-picker {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    padding-right: .5rem;
+}
+
+.form-date-picker [type="date"] {
+    width: 1px !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.form-date-picker .icon,
+.task-list-item .options .button {
+    --_size: 35px;
+    padding: 0;
+    width: var(--_size);
+    height: var(--_size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+}
+
+.form-date-holder {
+    padding-top: .5rem;
+    padding-left: 1.25rem;
+    color: var(--color-primary-darker);
+    font-weight: 500;
+}
+
+.form-date-holder::before {
+    content: "Due: ";
+    font-weight: 700;
+}
+
+/* hide if due date is NOT set  */
+.form-date-holder:empty {
+    display: none;
+}
+
+
+/* task list styles */
+/* ---------------- */
+
+.task-list {
+    padding-block: 3rem;
+}
+
+.task-list-item {
+    margin-bottom: .5rem;
+    padding: 1rem;
+    border-radius: .3rem;
+    box-shadow: 0 2px 7px rgb(0 0 0 / .25);
+    display: flex;
+    gap: 1rem;
+}
+
+.check {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.check>input {
+    display: none;
+}
+
+.check>.icon {
+    color: var(--color-primary);
+    font-size: 1.4rem;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+/* show checked circle if task marked as complete */
+.check>input:checked+.icon::after {
+    position: absolute;
+    content: "\f058";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.task-list-item .due-date {
+    color: rgb(88, 107, 133);
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.task-list-item .options {
+    display: inline-flex;
+}
+
+.task-list-item .content {
+    flex-grow: 1;
+}
+
+
+/* popup style overrides */
+/* -------------------- */
+
+.popup-header,
+.popup-footer {
+    border: 0;
+}
+
+.popup-content {
+    min-width: 400px;
+}
+
+.popup-body {
+    display: grid;
+    gap: 1rem;
+}
+
+#editTaskPopup input {
+    width: 100%;
+}
