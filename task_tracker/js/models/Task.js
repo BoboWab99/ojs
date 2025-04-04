@@ -1,44 +1,110 @@
 class Task {
     /**
-     * @param {String} task 
-     * @param {String?} dueDate 
-     * @param {Boolean} isCompleted 
-     * @param {Number?} id 
+     * task (String)
+     * dueDate (String?)
+     * isCompleted (Boolean)
+     * id (String)
      */
-    constructor(task, dueDate = null, isCompleted = false, id = null) {
-        this.id = id ?? Date.now();
+    constructor({ task, dueDate = null, isCompleted = false, id = null } = {}) {
+        this.id = id ?? __uid__();
         this.task = task;
         this.dueDate = dueDate;
         this.isCompleted = isCompleted;
     }
 
-    static fromJson(json) {
-        return new Task(
-            json["task"],
-            json["dueDate"],
-            json["isCompleted"],
-            json["id"]
-        );
+    /**
+     * task (String?)
+     * dueDate (String?)
+     * isCompleted (Boolean?)
+     */
+    update({ task = null, dueDate = null, isCompleted = null } = {}) {
+        this.task = task ?? this.task;
+        this.dueDate = dueDate ?? this.dueDate;
+        this.isCompleted = isCompleted ?? this.isCompleted;
+        return this;
+    }
+    
+    /**
+     * task (String?)
+     * dueDate (String?)
+     * isCompleted (Boolean?)
+     */
+    copyWith({ task = null, dueDate = null, isCompleted = null } = {}) {
+        return new Task({
+            task: task ?? this.task,
+            dueDate: dueDate ?? this.dueDate,
+            isCompleted: isCompleted ?? this.isCompleted
+        });
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            task: this.task,
+            dueDate: this.dueDate,
+            isCompleted: this.isCompleted
+        };
+    }
+
+    toJSONString() {
+        return JSON.stringify(this.toJSON());
+    }
+
+    static fromJSON(obj) {
+        return new Task({
+            id: obj["id"],
+            task: obj["task"],
+            dueDate: obj["dueDate"],
+            isCompleted: obj["isCompleted"]
+        });
     }
 
     /**
-     * @param {String} jsonString 
+     * @param {String} str 
      * @returns 
      */
-    static fromJsonString(jsonString) {
-        return Task.fromJson(JSON.parse(jsonString));
+    static fromJSONString(str) {
+        return Task.fromJSON(JSON.parse(str));
     }
-}
 
-Task.prototype.toJson = function () {
-    return {
-        "id": this.id,
-        "task": this.task,
-        "dueDate": this.dueDate,
-        "isCompleted": this.isCompleted
-    };
-}
+    /**
+     * @param {Array<any>} data 
+     * @returns 
+     */
+    static fromJSONList(data) {
+        return data.map((item) => this.fromJSON(item));
+    }
 
-Task.prototype.toString = function () {
-    return JSON.stringify(this.toJson());
+    /**
+     * @param {String} str 
+     */
+    static fromJSONListString(str) {
+        return this.fromJSONList(JSON.parse(str));
+    }
+
+    /**
+     * @param {Array<Task>} tasks 
+     */
+    static toJSONList(tasks) {
+        return tasks.map((item) => item.toJSON());
+    }
+    
+    /**
+     * @param {Array<Task>} tasks 
+     */
+    static toJSONListString(tasks) {
+        return JSON.stringify(this.toJSONList(tasks));
+    }
+
+    equals(other) {
+        if (!(other instanceof Task)) {
+            return false;
+        }
+        return (
+            this.id === other.id &&
+            this.task === other.task &&
+            this.dueDate === other.dueDate &&
+            this.isCompleted === other.isCompleted
+        );
+    }
 }

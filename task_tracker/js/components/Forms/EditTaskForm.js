@@ -9,10 +9,11 @@ class EditTaskForm extends OpenScript.Component {
                 { class: "popup-shadow" },
                 h.form(
                     {
+                        onsubmit: this.method("submit", "${event}"),
                         class: "popup-content",
-                        action: "#",
-                        method: "POST",
-                        id: "editTaskForm"
+                        name: "editTaskForm",
+                        id: "editTaskForm",
+                        method: "POST"
                     },
                     h.div(
                         { class: "popup-header" },
@@ -22,7 +23,7 @@ class EditTaskForm extends OpenScript.Component {
                         ),
                         h.button(
                             {
-                                onclick: this.method("closeThis"),
+                                onclick: this.method("close"),
                                 class: "button button-close",
                                 type: "reset",
                                 data_close: "popup"
@@ -43,18 +44,19 @@ class EditTaskForm extends OpenScript.Component {
                             ),
                             h.input({
                                 type: "text",
+                                required: "",
                                 class: "form-input",
-                                id: "editTaskInput"
+                                id: "editTaskInput",
+                                placeholder: "Task"
                             })
                         ),
                         h.div(
                             { class: "form-field" },
                             h.label(
                                 {
-                                    for: "editTaskInput",
+                                    for: "editTaskDate",
                                     hidden: ""
                                 },
-
                                 "Task due date"
                             ),
                             h.input({
@@ -90,7 +92,7 @@ class EditTaskForm extends OpenScript.Component {
                         { class: "popup-footer" },
                         h.button(
                             {
-                                onclick: this.method("closeThis"),
+                                onclick: this.method("close"),
                                 type: "reset",
                                 class: "button button-danger",
                                 data_close: "popup"
@@ -112,7 +114,28 @@ class EditTaskForm extends OpenScript.Component {
         );
     }
 
-    closeThis() {
+    $$task = {
+        needs: {
+            updateForm: (ed, _) => this.open(ed)
+        }
+    };
+
+    submit(event) {
+        event.preventDefault();
+        console.log("Request to submit", event.target.id);
+    }
+
+    open(ed) {
+        const { message } = EventData.parse(ed);
+        const form = dom.form("editTaskForm");
+        dom.field("editTaskInput", form).value = message.content;
+        dom.field("editTaskDate", form).value = message.dueDate;
+        dom.field("editTaskCheck", form).checked = message.isCompleted;
+        openPopup(dom.get("#editTaskPopup"));
+    }
+
+    close() {
         closePopup(dom.get("#editTaskPopup"));
+        // dom.form("editTaskForm").reset(); // buttons are of [type=reset]
     }
 }

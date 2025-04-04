@@ -1,9 +1,16 @@
 class TaskListWidget extends OpenScript.Component {
-    render(tasks, ...args) {
-        return h.ol(
-            { class: "task-list" },
-            each(tasks, (task) => h.TaskWidget(task)),
-            ...args
+    render(...args) {
+        return h.div(
+            v(dataContext.tasks, (tasks) => {
+                if (tasks.value.length == 0) return h.div(
+                    { class: "task-list" }, "No tasks yet!"
+                );
+                return h.ul(
+                    { class: "task-list" },
+                    each(tasks.value, (task) => h.TaskWidget(task)),
+                    ...args
+                );
+            })
         );
     }
 }
@@ -23,14 +30,14 @@ class TaskWidget extends OpenScript.Component {
                 { class: "content" },
                 h.span(
                     { data_task_attr: "task" },
-                    task.content
+                    task.task
                 ),
                 h.div(
                     { class: "due-date" },
                     h.i({ class: "fa-regular fa-calendar" }),
                     h.span(
                         { data_task_attr: "dueDate" },
-                        task.dueDate
+                        task.dueDate ?? "Anytime"
                     ),
                 ),
             ),
@@ -38,7 +45,7 @@ class TaskWidget extends OpenScript.Component {
                 { class: "options" },
                 h.button(
                     {
-                        onclick: this.method("editTask", ["${this}", task]),
+                        onclick: this.method("update", task),
                         type: "button",
                         title: "Edit task",
                         class: "button button-primary-transparent button-edit",
@@ -52,7 +59,7 @@ class TaskWidget extends OpenScript.Component {
                 ),
                 h.button(
                     {
-                        onclick: this.method("deleteTask", task),
+                        onclick: this.method("delete", task),
                         type: "button",
                         title: "Delete task",
                         class: "button button-danger-transparent button-delete",
@@ -70,18 +77,20 @@ class TaskWidget extends OpenScript.Component {
     }
 
     toggleCompleted(task) {
-        console.log("Requesting task complete", task);
+        broker.emit(
+            $e.task.toggleCompleted, payload({ id: task.id })
+        );
     }
 
-    editTask(trigger, task) {
-        const form = dom.form("editTaskForm");
-        dom.field("editTaskInput", form).value = task.content;
-        dom.field("editTaskDate", form).value = task.dueDate;
-        dom.field("editTaskCheck", form).checked = task.isCompleted;
-        openPopup(trigger);
+    update(task) {
+        broker.emit(
+            $e.task.needs.updateForm, payload(task)
+        );
     }
 
-    deleteTask(task) {
-        console.log("Requesting task delete", task);
+    delete(task) {
+        broker.emit(
+            $e.task.delete, payload({ id: task.id })
+        );
     }
 }

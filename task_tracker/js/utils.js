@@ -9,6 +9,10 @@ String.prototype.capitalize = function () {
         .join(" "); // Join the capitalized words back into a single string
 }
 
+function __uid__() {
+    return `${Date.now()}-${Math.random().toString(36).substring(2, 12).padStart(12, 0)}`;
+}
+
 /**
  * App theme color names
  */

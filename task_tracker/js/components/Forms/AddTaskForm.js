@@ -5,15 +5,18 @@ class AddTaskForm extends OpenScript.Component {
         return h.div(
             h.form(
                 {
+                    onsubmit: this.method("submit", "${event}"),
                     class: "task-form",
                     name: "taskForm",
-                    id: "taskForm"
+                    id: "taskForm",
+                    method: "POST"
                 },
                 // input fields
                 h.div(
                     { class: "inputs" },
                     h.input({
                         type: "text",
+                        required: "",
                         name: "task",
                         id: "taskFormInput",
                         class: "form-input",
@@ -25,17 +28,12 @@ class AddTaskForm extends OpenScript.Component {
                             title: "Pick due date"
                         },
                         h.input({
-                            // listeners: {
-                            //     change: function () {
-                            //         component("AddTaskForm").pickedDate.value = this.value;
-                            //     }
-                            // },
                             onchange: this.method("setPickedDate"),
+                            // oninput: this.method("setPickedDate"),
                             type: "date",
                             name: "due-date",
                             id: "taskFormDatePicker",
                             min: dateForInput()
-                            // hidden: "", // places the picker in the top-left corner of the browser
                         }),
                         h.span(
                             {
@@ -62,6 +60,19 @@ class AddTaskForm extends OpenScript.Component {
             }),
             ...args
         );
+    }
+
+    async submit(event) {
+        event.preventDefault();
+        const form = event.target;
+        await broker.emit(
+            $e.task.create, payload({
+                task: dom.field("taskFormInput", form).value,
+                task: dom.field("taskFormDatePicker", form).value
+            })
+        );
+        dom.form("taskForm").reset();
+        console.log("Request to submit", event.target.id);
     }
 
     setPickedDate() {

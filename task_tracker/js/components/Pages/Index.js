@@ -19,17 +19,7 @@ class IndexPage extends OpenScript.Component {
                         { hidden: "" },
                         "TodoList App"
                     ),
-                    h.TaskListWidget([
-                        {
-                            content: "Do something",
-                            dueDate: "2025-04-15",
-                            isCompleted: true
-                        },
-                        {
-                            content: "Do another thing",
-                            dueDate: "2025-04-15"
-                        },
-                    ]),
+                    h.TaskListWidget(),
                 ),
             ),
             ...args
