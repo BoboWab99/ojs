@@ -6,6 +6,7 @@ class AddTaskForm extends OpenScript.Component {
             h.form(
                 {
                     onsubmit: this.method("submit", "${event}"),
+                    onreset: this.method("reset", "${event}"),
                     class: "task-form",
                     name: "taskForm",
                     id: "taskForm",
@@ -28,18 +29,19 @@ class AddTaskForm extends OpenScript.Component {
                             title: "Pick due date"
                         },
                         h.input({
-                            onchange: this.method("setPickedDate"),
-                            // oninput: this.method("setPickedDate"),
+                            oninput: this.method("setPickedDate"),
                             type: "date",
                             name: "due-date",
                             id: "taskFormDatePicker",
-                            min: dateForInput()
+                            min: dateForInput(),
+                            tabindex: "-1"
                         }),
                         h.span(
                             {
                                 onclick: this.method("showDatePicker"),
                                 role: "button",
-                                class: "icon button button-primary-transparent"
+                                class: "icon button button-primary-transparent",
+                                tabindex: "0"
                             },
                             h.i({ class: "fa-regular fa-calendar" })
                         )
@@ -68,11 +70,18 @@ class AddTaskForm extends OpenScript.Component {
         await broker.emit(
             $e.task.create, payload({
                 task: dom.field("taskFormInput", form).value,
-                task: dom.field("taskFormDatePicker", form).value
+                dueDate: dom.field("taskFormDatePicker", form).value
             })
         );
-        dom.form("taskForm").reset();
-        console.log("Request to submit", event.target.id);
+        form.reset();
+        // console.log("Request to submit", event.target.id);
+    }
+
+    reset(event) {
+        // defer execution until after the reset operation completes
+        Promise.resolve().then(() => {
+            this.setPickedDate();
+        });
     }
 
     setPickedDate() {

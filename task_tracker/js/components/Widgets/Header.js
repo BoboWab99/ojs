@@ -1,4 +1,34 @@
 class HeaderWidget extends OpenScript.Component {
+    quotes = [
+        "Hard work beats talent when talent doesn't work hard.",
+        "Concentrate all your thoughts upon the work in hand. ",
+        "Either you run the day or the day runs you.",
+        "I'm a greater believer in luck, and I find the harder I work the more I have of it.",
+        "When we strive to become better than we are, everything around us becomes better too."
+    ];
+
+    quote = state(this.quotes[0]);
+
+    /**
+     * Infinitely loop through the quotes and show one at a time
+     * @param {Array} quotes list of quotes
+     * @param {Number} after change quote after {after} seconds
+     */
+    loopQuotes(quotes = [], after = 7500) {
+        let index = 0;
+        const run = () => {
+            this.quote.value = quotes[index];
+            index = (index + 1) % quotes.length;
+            setTimeout(run, after);
+        };
+        run();
+    }
+
+    async mount() {
+        await super.mount();
+        this.loopQuotes(this.quotes);
+    }
+
     render(...args) {
         return h.header(
             { class: "header" },
@@ -21,7 +51,7 @@ class HeaderWidget extends OpenScript.Component {
                         { class: "header-quote" },
                         h.p(
                             { id: "quote" },
-                            "Either you run the day or the day runs you."
+                            v(this.quote, (q) => h.span(q.value))
                         )
                     ),
                     h.div(

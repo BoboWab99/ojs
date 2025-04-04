@@ -1,0 +1,20 @@
+/* popup style overrides */
+/* -------------------- */
+
+.popup-header,
+.popup-footer {
+    border: 0 !important;
+}
+
+.popup-content {
+    min-width: 400px;
+}
+
+.popup-body {
+    display: grid;
+    gap: 1rem;
+}
+
+#editTaskPopup input {
+    width: 100%;
+}

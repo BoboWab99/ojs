@@ -4,7 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap');
 
-@import url("popup.css");
+/* @import url("popup.css"); */
 
 
 /* variables */
@@ -64,6 +64,10 @@ html:not([data-theme]),
     box-sizing: border-box;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 html {
     font-family: "Roboto", sans-serif;
     font-size: 14px;
@@ -105,6 +109,16 @@ img {
     max-width: 800px;
     padding-inline: 1rem;
     margin-inline: auto;
+}
+
+.form-field-group,
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field-group {
+    gap: 1rem;
 }
 
 /* input, textarea, select boxes */
@@ -437,6 +451,7 @@ img {
 }
 
 .check {
+    --_size: 1.5rem;
     display: inline-flex;
     align-items: center;
     gap: 1rem;
@@ -448,10 +463,21 @@ img {
 
 .check>.icon {
     color: var(--color-primary);
-    font-size: 1.4rem;
-    display: inline-block;
+    font-size: var(--_size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
     cursor: pointer;
     position: relative;
+    height: var(--_size);
+    width: var(--_size);
+    border-radius: var(--_size);
+    flex: 0 0 auto;
+}
+
+.check>.icon:focus {
+    box-shadow: 0 0 0 .25rem rgb(var(--color-code-primary) / .4);
 }
 
 /* show checked circle if task marked as complete */
@@ -459,7 +485,9 @@ img {
     position: absolute;
     content: "\f058";
     font-family: "Font Awesome 6 Free";
+    font-size: var(--_size);
     font-weight: 900;
+    line-height: 1;
     top: 0;
     left: 0;
     z-index: 1;
@@ -480,24 +508,6 @@ img {
     flex-grow: 1;
 }
 
-
-/* popup style overrides */
-/* -------------------- */
-
-.popup-header,
-.popup-footer {
-    border: 0;
-}
-
-.popup-content {
-    min-width: 400px;
-}
-
-.popup-body {
-    display: grid;
-    gap: 1rem;
-}
-
-#editTaskPopup input {
-    width: 100%;
+.task-list-item .check-wrapper {
+    padding-top: .5rem;
 }

@@ -1,114 +1,50 @@
 class EditTaskForm extends OpenScript.Component {
-    render(...args) {
-        return h.div(
+    render(task, ...args) {
+        return h.form(
             {
-                class: "popup",
-                id: "editTaskPopup"
+                onsubmit: this.method("onSubmit", "${event}"),
+                name: `task-upd-form-${task.id}`,
+                class: "form-field-group",
+                method: "POST",
             },
             h.div(
-                { class: "popup-shadow" },
-                h.form(
+                { class: "form-field" },
+                h.label(
                     {
-                        onsubmit: this.method("submit", "${event}"),
-                        class: "popup-content",
-                        name: "editTaskForm",
-                        id: "editTaskForm",
-                        method: "POST"
+                        for: "editTaskInput",
+                        hidden: ""
                     },
-                    h.div(
-                        { class: "popup-header" },
-                        h.h3(
-                            { class: "popup-title" },
-                            "Edit task".capitalize()
-                        ),
-                        h.button(
-                            {
-                                onclick: this.method("close"),
-                                class: "button button-close",
-                                type: "reset",
-                                data_close: "popup"
-                            },
-                            h.span("+")
-                        )
-                    ),
-                    h.div(
-                        { class: "popup-body" },
-                        h.div(
-                            { class: "form-field" },
-                            h.label(
-                                {
-                                    for: "editTaskInput",
-                                    hidden: ""
-                                },
-                                "Task description"
-                            ),
-                            h.input({
-                                type: "text",
-                                required: "",
-                                class: "form-input",
-                                id: "editTaskInput",
-                                placeholder: "Task"
-                            })
-                        ),
-                        h.div(
-                            { class: "form-field" },
-                            h.label(
-                                {
-                                    for: "editTaskDate",
-                                    hidden: ""
-                                },
-                                "Task due date"
-                            ),
-                            h.input({
-                                type: "date",
-                                class: "form-input",
-                                id: "editTaskDate",
-                                min: dateForInput()
-                            })
-                        ),
-                        h.div(
-                            { class: "form-field" },
-                            h.label(
-                                { class: "check" },
-                                h.input({
-                                    type: "checkbox",
-                                    id: "editTaskCheck"
-                                }),
-                                h.span(
-                                    { class: "icon" },
-                                    h.i({
-                                        class: "fa-regular fa-circle",
-                                        aria_hidden: "true"
-                                    })
-                                ),
-                                h.span(
-                                    { class: "check-label" },
-                                    "Mark as Complete"
-                                )
-                            )
-                        )
-                    ),
-                    h.div(
-                        { class: "popup-footer" },
-                        h.button(
-                            {
-                                onclick: this.method("close"),
-                                type: "reset",
-                                class: "button button-danger",
-                                data_close: "popup"
-                            },
-                            "Cancel"
-                        ),
-                        h.button(
-                            {
-                                type: "submit",
-                                class: "button button-primary",
-                                id: "editTaskSave"
-                            },
-                            "Save"
-                        )
-                    )
-                )
+                    "Task description"
+                ),
+                h.input({
+                    type: "text",
+                    required: "",
+                    value: task.task,
+                    class: "form-input",
+                    id: "editTaskInput",
+                    placeholder: "Task"
+                })
+            ),
+            h.div(
+                { class: "form-field" },
+                h.label(
+                    {
+                        for: "editTaskDate",
+                        hidden: ""
+                    },
+                    "Task due date"
+                ),
+                h.input({
+                    type: "date",
+                    value: task.dueDate,
+                    class: "form-input",
+                    id: "editTaskDate",
+                    min: dateForInput()
+                })
+            ),
+            h.div(
+                { class: "form-field" },
+                h.CheckWidget(false, task.isCompleted, { id: "editTaskCheck" }, "Mark as Complete")
             ),
             ...args
         );
@@ -120,22 +56,34 @@ class EditTaskForm extends OpenScript.Component {
         }
     };
 
-    submit(event) {
+    onSubmit(event) {
         event.preventDefault();
-        console.log("Request to submit", event.target.id);
+        const uid = event.target
+            .closest("[data-popup-id]")
+            .getAttribute("data-popup-id");
+        dom.id(`popup-button-right-${uid}`).click();
     }
 
     open(ed) {
         const { message } = EventData.parse(ed);
-        const form = dom.form("editTaskForm");
-        dom.field("editTaskInput", form).value = message.content;
-        dom.field("editTaskDate", form).value = message.dueDate;
-        dom.field("editTaskCheck", form).checked = message.isCompleted;
-        openPopup(dom.get("#editTaskPopup"));
+        const options = Popup.options();
+        options.buttons.right.callback = () => {
+            this.submitForm(message.id);
+        }
+        Popup.open({
+            title: "Test something!",
+            content: h.EditTaskForm(message),
+            options: options
+        });
     }
 
-    close() {
-        closePopup(dom.get("#editTaskPopup"));
-        // dom.form("editTaskForm").reset(); // buttons are of [type=reset]
+    submitForm(taskId) {
+        const form = dom.form(`task-upd-form-${taskId}`);
+        broker.emit($e.task.update, payload({
+            id: taskId,
+            task: dom.field("editTaskInput", form).value,
+            dueDate: dom.field("editTaskDate", form).value,
+            isCompleted: dom.field("editTaskCheck", form).checked
+        }));
     }
 }

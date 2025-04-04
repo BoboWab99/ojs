@@ -9,11 +9,12 @@ class CheckWidget extends OpenScript.Component {
             h.input({
                 type: type,
                 hidden: "",
+                tabindex: "-1",
                 ...inputAttrs,
                 ...checkedAttr
             }),
             h.span(
-                { class: "icon" },
+                { class: "icon", tabindex: "0" },
                 h.i({ class: "fa-regular fa-circle" }),
                 // The transition "fa-regular fa-circle" → "fa-solid fa-check-circle"
                 // is handled from CSS using the checked attribute

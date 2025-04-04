@@ -29,16 +29,16 @@ class IndexPage extends OpenScript.Component {
 
 
 class DialogContainer extends OpenScript.Component {
+    // Container for all dialogs/popups
     async mount() {
         await super.mount();
         req("Forms.EditTaskForm");
         req("Forms.AppThemeForm");
     }
 
+    // Load those that don't need to be dynamically generated
     render(...args) {
         return h.div(
-            {},
-            h.EditTaskForm(),
             h.AppThemeForm(),
             ...args
         );

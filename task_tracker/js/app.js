@@ -28,4 +28,4 @@ dataContext.states({
 h.IndexPage({ parent: rootContext.appRoot });
 h.DialogContainer({ parent: rootContext.dialogRoot });
 
-// broker.emit($e.task.needs.fetchAll);
+broker.emit($e.task.needs.fetchAll);

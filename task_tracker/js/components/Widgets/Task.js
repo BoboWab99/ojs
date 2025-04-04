@@ -19,12 +19,15 @@ class TaskWidget extends OpenScript.Component {
     render(task, ...args) {
         return h.li(
             { class: "task-list-item" },
-            h.CheckWidget(
-                false,
-                task.isCompleted,
-                { onchange: this.method("toggleCompleted", task) },
-                undefined,
-                { title: "Mark as complete" },
+            h.span(
+                { class: "check-wrapper" },
+                h.CheckWidget(
+                    false,
+                    task.isCompleted,
+                    { onchange: this.method("toggleCompleted", task) },
+                    undefined,
+                    { title: "Mark as complete" },
+                )
             ),
             h.div(
                 { class: "content" },
@@ -37,7 +40,7 @@ class TaskWidget extends OpenScript.Component {
                     h.i({ class: "fa-regular fa-calendar" }),
                     h.span(
                         { data_task_attr: "dueDate" },
-                        task.dueDate ?? "Anytime"
+                        (task.dueDate == null || task.dueDate.isEmpty()) ? "Anytime" : task.dueDate
                     ),
                 ),
             ),

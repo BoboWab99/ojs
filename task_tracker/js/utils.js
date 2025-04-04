@@ -4,11 +4,24 @@
  */
 String.prototype.capitalize = function () {
     return this
-        .split(" ") // Split the string into an array of substrings (words)
+        .split(" ")
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-        .join(" "); // Join the capitalized words back into a single string
+        .join(" ");
 }
 
+String.prototype.isEmpty = function () {
+    return this.trim() == "";
+}
+
+String.prototype.isNotEmpty = function () {
+    return this.trim() != "";
+}
+
+/**
+ * Create unique ID by combining current timestamp and
+ * random numbers to reduce likelihood of crashes.
+ * @returns 
+ */
 function __uid__() {
     return `${Date.now()}-${Math.random().toString(36).substring(2, 12).padStart(12, 0)}`;
 }
